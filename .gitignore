@@ -3,3 +3,4 @@
 *.js
 *.js
 node_modules/.bin/mime
+node_modules
