@@ -54,14 +54,17 @@ let favMovies = [
    },
  ];
 
+//  Gets list of JSON objects for favorite movies
  app.get('/movies', (req, res) => {
     res.json(favMovies);
  })
 
+//  Welcome page
  app.get('/', (req, res) => {
     res.send('Welcome to myFlix.');
  })
 
+//  Renders documentation page
  app.use(express.static('public'));
 
  app.listen(8080, () =>{
