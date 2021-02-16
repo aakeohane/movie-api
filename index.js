@@ -1,5 +1,6 @@
 const express = require('express');
 const app = express();
+const morgan = require('morgan');
 
 let favMovies = [
    {
@@ -54,6 +55,9 @@ let favMovies = [
    },
  ];
 
+//  logs IP address/time of request/ request method and path/ status code to terminal
+ app.use(morgan('common'));
+
 //  Gets list of JSON objects for favorite movies
  app.get('/movies', (req, res) => {
     res.json(favMovies);
@@ -69,4 +73,10 @@ let favMovies = [
 
  app.listen(8080, () =>{
    console.log('Your app is running on port 8080.');
+ });
+
+//  sends error to terminal if code is broken
+ app.use((err, req, res, next) => {
+   console.error(err.stack);
+   res.status(500).send('Oh no! Something broke!');
  });
