@@ -8,5 +8,79 @@
       <h1>Documentation</h1>
       <h2>myFlix: a REST API with node.js</h2>
       <p>A web application that will provide users with access to information about different movies, directors, and genres. Users will be able to sign up, update their personal information, and create a list of their favorite movies.</p>
-  </body>
+      <div>
+        <table>
+          <tr>
+            <th>Description</th>
+            <th>URL Endoint</th>
+            <th>HTTP Method</th>
+            <th>Request Body Format</th>
+            <th>Response Body Format</th>
+          </tr>
+          <tr>
+            <td>This endpoint will return a list of all the movies in the database</td>
+            <td>/movies</td>
+            <td>GET</td>
+            <td>None</td>
+            <td>A JSON object with data about all the movies</td>
+          </tr>
+          <tr>
+            <td>This endpoint will get information (description, genre, director, and image URL) about a single movie title</td>
+            <td>/movies/:Title</td>
+            <td>GET</td>
+            <td>None</td>
+            <td>JSON object with data about a specific movie with info about title, director, and year</td>
+          </tr>
+          <tr>
+            <td>Return data about the genre of a single movie by title</td>
+            <td>/movies/genres/:Title</td>
+            <td>GET</td>
+            <td>None</td>
+            <td>A JSON object with data about the genre of a movie, and description of genre</td>
+          </tr>
+          <tr>
+            <td>This will return data about a movie director by name</td>
+            <td>/movies/directors/:Name</td>
+            <td>GET</td>
+            <td>None</td>
+            <td>JSON object with data about director containing bio, birth year and death year</td>
+          </tr>
+          <tr>
+            <td>This allows new users to register</td>
+            <td>/users</td>
+            <td>POST</td>
+            <td>JSON object with data of a new user containing username, password and email/td>
+            <td>JSON object with data about user that was addded</td>
+          </tr>
+          <tr>
+            <td>This allows users to update their info/username</td>
+            <td>/users/:Username</td>
+            <td>PUT</td>
+            <td>JSON object with updated info</td>
+            <td>JSON object with updated info</td>
+          </tr>
+          <tr>
+            <td>This allows users to add a movie to their favorites list</td>
+            <td>/users/:Username/movies/:Title</td>
+            <td>POST</td>
+            <td>None</td>
+            <td>A text stating that the movie has been added to their favorites list</td>
+          </tr>
+          <tr>
+            <td>This allows users to remove movies from favorites</td>
+            <td>/users/:Username/movies/:Title</td>
+            <td>DELETE</td>
+            <td>None</td>
+            <td>A text stating that the movie has been removed</td>
+          </tr>
+          <tr>
+            <td>This allows users to deactivate their account</td>
+            <td>/users/:Username</td>
+            <td>DELETE</td>
+            <td>None</td>
+            <td>A text stating the the user email/account has been removed and deactivated</td>
+          </tr>
+        </table>
+      </div>
+    </body>
 </html>
