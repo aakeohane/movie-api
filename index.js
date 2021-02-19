@@ -71,11 +71,11 @@ app.get('/movies/:Title', (req, res) => {
    res.send('Successful GET request returning data on specific movie');
 });
 
-app.get('/movies/genres/:Title', (req, res) => {
+app.get('/genres/:Title', (req, res) => {
    res.send('Successful GET request returning data on specific movie genre');
 });
 
-app.get('/movies/directors/:Name', (req, res) => {
+app.get('/directors/:Name', (req, res) => {
    res.send('Successful GET request returning data on movie director');
 });
 
