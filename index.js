@@ -2,58 +2,6 @@ const express = require('express');
 const app = express();
 const morgan = require('morgan');
 
-// let favMovies = [
-//    {
-//      title: 'Harry Potter and the Sorcerer\'s Stone',
-//      year: '2001',
-//      rating: '7.6'
-//    },
-//    {
-//       title: 'Harry Potter and the Chamber of Secrets',
-//       year: '2002',
-//       rating: '7.4'
-//    },
-//    {
-//       title: 'Harry Potter and the Prisoner of Azkaban',
-//       year: '2004',
-//       rating: '7.9'
-//    },
-//    {
-//       title: 'Harry Potter and the Goblet of Fire',
-//       year: '2005',
-//       rating: '7.7'
-//    },
-//    {
-//       title: 'Harry Potter and the Order of the Phoenix',
-//       year: '2007',
-//       rating: '7.5'
-//    },
-//    {
-//       title: 'Harry Potter and the Half-Blood Prince',
-//       year: '2009',
-//       rating: '7.6'
-//    },
-//    {
-//       title: 'Harry Potter and the Deathly Hallows: Part 1',
-//       year: '2010',
-//       rating: '7.7'
-//    },
-//    {
-//       title: 'Harry Potter and the Deathly Hallows: Part 2',
-//       year: '2011',
-//       rating: '8.1'
-//    },
-//    {
-//       title: 'Fantastic Beasts and Where to Find Them',
-//       year: '2016',
-//       rating: '7.3'
-//    },
-//    {
-//       title: 'Fantastic Beasts: the Crimes of Grindelwald',
-//       year: '2018',
-//       rating: '6.6'
-//    },
-//  ];
 
 //  logs IP address/time of request/ request method and path/ status code to terminal
 app.use(morgan('common'));
@@ -111,3 +59,4 @@ app.delete('/users/:Username', (req, res) => {
    console.error(err.stack);
    res.status(500).send('Oh no! Something broke!');
  });
+
