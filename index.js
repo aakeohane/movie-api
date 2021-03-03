@@ -11,6 +11,7 @@ const express = require('express');
 const app = express();
 app.use(bodyParser.json());
 const morgan = require('morgan');
+const e = require('express');
 
 
 //  logs IP address/time of request/ request method and path/ status code to terminal
@@ -21,8 +22,16 @@ app.get('/', (req, res) => {
    res.send('Welcome to myFlix.');
 });
 
+// return list of movies
 app.get('/movies', (req, res) => {
-   res.send('Successful GET request returning data on all the movies');
+   Movies.find()
+      .then((movies) => {
+         res.status(201).json(movies);
+      })
+      .catch((err) => {
+         console.error(err);
+         res.status(500).send('Error: ' + err);
+      });
 });
 
 app.get('/movies/:Title', (req, res) => {
@@ -76,8 +85,26 @@ app.post('/users', (req, res) => {
    })
 });
 
+// Update a users info by username
 app.put('/users/:Username', (req, res) => {
-   res.send('Successful PUT request - new user updated');
+   Users.findOneAndUpdate({ Username: req.params.Username },
+{ $set:
+     {
+        Username: req.body.Username,
+        Password: req.body.Password,
+        Email: req.body.Email,
+        Birthday: req.body.Birthday
+     }
+   },
+   { new: true },
+   (err, updatedUser) => {
+      if(err) {
+         console.error(err);
+         res.status(500).send('Error: ' + err);
+      }  else {
+         res.json(updatedUser);
+      }
+   });
 });
 
 app.post('/users/:Username/movies/:Title', (req, res) => {
