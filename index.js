@@ -38,7 +38,7 @@ app.get('/movies', (req, res) => {
 app.get('/movies/:Title', (req, res) => {
    Movies.findOne({ Title: req.params.Title })
       .then((movie) => {
-         res.json(movie);
+         res.status(201).json(movie);
       })
       .catch((err) => {
          console.error(err);
@@ -50,7 +50,7 @@ app.get('/movies/:Title', (req, res) => {
 app.get('/movies/genres/:Title', (req, res) => {
    Movies.findOne({ Title: req.params.Title })
    .then((movie) => {
-      res.json(movie.Genre);
+      res.status(201).json(movie.Genre);
    })
    .catch((err) => {
       console.error(err);
@@ -73,7 +73,7 @@ app.get('/movies/directors/:Name', (req, res) => {
 app.get('/users/:Username', (req, res) => {
    Users.findOne({ Username: req.params.Username})
       .then((user) => {
-         res.json(user);
+         res.status(201).json(user);
       })
       .catch((err) => {
          console.error(err);
@@ -130,16 +130,52 @@ app.put('/users/:Username', (req, res) => {
    });
 });
 
-app.post('/users/:Username/movies/:Title', (req, res) => {
-   res.send('Successful POST request - movie added to favorites');
+// add movie to users favorites list
+app.post('/users/:Username/movies/:MovieID', (req, res) => {
+   Users.findOneAndUpdate({ Username: req.params.Username},
+   { $push:
+      {
+         FavoriteMovies: req.params.MovieID
+      }
+    },
+    { new: true },
+    (err, updatedUser) => {
+       if(err) {
+          console.error(err);
+          res.status(500).send('Error: ' + err);
+       }  else {
+          res.json(updatedUser);
+       }
+    });
 });
 
-app.delete('/users/:Username/movies/:Title', (req, res) => {
-   res.send('Successful DELETE request - movie removed');
+app.delete('/users/:Username/movies/:MovieID', (req, res) => {
+   Users.findOneAndUpdate({ Username: req.params.Username }, 
+      { $pull: { FavoriteMovies: req.params.MovieID }},
+      { new: true },
+      (err, updatedUser) => {
+          if (err) {
+              console.error(err);
+              res.status(500).send('Error: ' + err);
+          } else {
+              res.json(updatedUser);
+          }
+      });
 });
 
 app.delete('/users/:Username', (req, res) => {
-   res.send('Successful DELETE request - user deactivated');
+   Users.findOneAndRemove({ Username: req.params.Username })
+    .then((user) => {
+        if (!user) {
+            res.status(400).send(req.params.Username + ' was not found.');
+        } else {
+            res.status(200).send(req.params.Username + ' was deleted.');
+        }
+    })
+    .catch((err) => {
+        console.error(err);
+        res.status(500).send('Error: ' + err);
+    });
 });
 
 //  Renders documentation page
