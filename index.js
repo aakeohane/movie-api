@@ -37,6 +37,19 @@ app.get('/directors/:Name', (req, res) => {
    res.send('Successful GET request returning data on movie director');
 });
 
+//return info for one user
+app.get('/users/:Username', (req, res) => {
+   Users.findOne({ Username: req.params.Username})
+      .then((user) => {
+         res.json(user);
+      })
+      .catch((err) => {
+         console.error(err);
+         res.status(500).send('Error: ' + err);
+      });
+});
+
+//create username for one user
 app.post('/users', (req, res) => {
    Users.findOne({ Username: req.body.Username})
    .then((user) => {
