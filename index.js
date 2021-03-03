@@ -58,6 +58,7 @@ app.get('/movies/genres/:Title', (req, res) => {
    });
 });
 
+// Find director by name
 app.get('/movies/directors/:Name', (req, res) => {
    Movies.findOne({ 'Director.Name': req.params.Name })
    .then((director) => {
@@ -149,6 +150,7 @@ app.post('/users/:Username/movies/:MovieID', (req, res) => {
     });
 });
 
+// Delete a users favorite movie from their list
 app.delete('/users/:Username/movies/:MovieID', (req, res) => {
    Users.findOneAndUpdate({ Username: req.params.Username }, 
       { $pull: { FavoriteMovies: req.params.MovieID }},
@@ -163,6 +165,7 @@ app.delete('/users/:Username/movies/:MovieID', (req, res) => {
       });
 });
 
+// Delete or deregister a user from the database
 app.delete('/users/:Username', (req, res) => {
    Users.findOneAndRemove({ Username: req.params.Username })
     .then((user) => {
