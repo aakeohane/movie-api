@@ -46,7 +46,7 @@ app.get('/movies/:Title', (req, res) => {
       });
 });
 
-// Returns genre info
+// Returns genre info from specific movie
 app.get('/movies/genres/:Title', (req, res) => {
    Movies.findOne({ Title: req.params.Title })
    .then((movie) => {
@@ -58,8 +58,15 @@ app.get('/movies/genres/:Title', (req, res) => {
    });
 });
 
-app.get('/directors/:Name', (req, res) => {
-   res.send('Successful GET request returning data on movie director');
+app.get('/movies/directors/:Name', (req, res) => {
+   Movies.findOne({ 'Director.Name': req.params.Name })
+   .then((director) => {
+      res.status(201).json(director.Director);
+   })
+   .catch((err) => {
+      console.error(err);
+      res.status(500).send('Error: ' + err);
+   });
 });
 
 //return info for one user
