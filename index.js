@@ -35,7 +35,14 @@ app.get('/movies', (req, res) => {
 });
 
 app.get('/movies/:Title', (req, res) => {
-   res.send('Successful GET request returning data on specific movie');
+   Movies.findOne({ Title: req.params.Title })
+      .then((movie) => {
+         res.json(movie);
+      })
+      .catch((err) => {
+         console.error(err);
+         res.status(500).send('Error: ' + err);
+      });
 });
 
 app.get('/genres/:Title', (req, res) => {
