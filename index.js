@@ -10,6 +10,11 @@ const bodyParser = require('body-parser');
 const express = require('express');
 const app = express();
 app.use(bodyParser.json());
+
+let auth = require('./auth')(app);
+const passport = require('passport');
+require('./passport');
+
 const morgan = require('morgan');
 const e = require('express');
 
@@ -23,7 +28,7 @@ app.get('/', (req, res) => {
 });
 
 // return list of movies
-app.get('/movies', (req, res) => {
+app.get('/movies', passport.authenticate('jwt', { session: false}), (req, res) => {
    Movies.find()
       .then((movies) => {
          res.status(201).json(movies);
