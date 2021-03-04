@@ -18,6 +18,16 @@ require('./passport');
 const morgan = require('morgan');
 const e = require('express');
 
+const cors = require('cors');
+let allowedOrigins = ['http://localhost:8080', 'http://testsite.com'];
+
+app.use(cors({
+   origin: (origin, callback) => {
+      if(!origin) return callback(null, true);
+      if(allowedOrigins.indexOf(origin) === -1){// If specific origin isnt found on the list of zallowed or}
+   }
+}))
+
 
 //  logs IP address/time of request/ request method and path/ status code to terminal
 app.use(morgan('common'));
