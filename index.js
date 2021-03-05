@@ -24,9 +24,13 @@ let allowedOrigins = ['http://localhost:8080', 'http://testsite.com'];
 app.use(cors({
    origin: (origin, callback) => {
       if(!origin) return callback(null, true);
-      if(allowedOrigins.indexOf(origin) === -1){// If specific origin isnt found on the list of zallowed or}
+      if(allowedOrigins.indexOf(origin) === -1){ // If a specific origin isnt found on the list of allowed origins
+         let message = 'The CORS policy for this application doesn\'t allow access from origin ' + origin;
+         return callback(new Error(message), false);
+      }
+      return callback(null, true);
    }
-}))
+}));
 
 
 //  logs IP address/time of request/ request method and path/ status code to terminal
@@ -98,7 +102,8 @@ app.get('/users/:Username', passport.authenticate('jwt', { session: false}), (re
 });
 
 //create username for one user
-app.post('/users', passport.authenticate('jwt', { session: false}), (req, res) => {
+app.post('/users', (req, res) => {
+   let hashedPassword = Users.hashPassword(req.body.Password);
    Users.findOne({ Username: req.body.Username})
    .then((user) => {
       if (user) {
@@ -107,7 +112,7 @@ app.post('/users', passport.authenticate('jwt', { session: false}), (req, res) =
          Users
             .create({
                Username: req.body.Username,
-               Password: req.body.Password,
+               Password: hashedPassword,
                Email: req.body.Email,
                Birthday: req.body.Birthday
             })
