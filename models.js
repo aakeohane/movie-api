@@ -1,4 +1,6 @@
 const mongoose = require('mongoose');
+
+// hash users’ passwords and compare hashed passwords every time users log in for more secure login authentication process
 const bcrypt = require('bcrypt');
 
 let movieSchema = mongoose.Schema({
