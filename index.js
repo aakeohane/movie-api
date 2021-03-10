@@ -149,26 +149,33 @@ app.post('/users',
   });
 
 // Update a users info by username
-app.put('/users/:Username', passport.authenticate('jwt', { session: false}), (req, res) => {
-  Users.findOneAndUpdate({ Username: req.params.Username },
-    {
-      $set:
+app.put('/users/:Username',
+  [ //validation logic here for request
+    check('Username', 'Username is required.').isLength({min: 5}), 
+    check('Username', 'Username contains non alphanumeric characters - not allowed.').isAlphanumeric(),
+    check('Password', 'Password is required').not().isEmpty(),
+    check('Email', 'Email does not appear to be valid').isEmail()
+  ],
+    passport.authenticate('jwt', { session: false}), (req, res) => {
+      Users.findOneAndUpdate({ Username: req.params.Username },
         {
-          Username: req.body.Username,
-          Password: req.body.Password,
-          Email: req.body.Email,
-          Birthday: req.body.Birthday
-        }
-    },
-    { new: true },
-    (err, updatedUser) => {
-      if(err) {
-        console.error(err);
-        res.status(500).send('Error: ' + err);
-      } else {
-        res.json(updatedUser);
-      }
-    });
+          $set:
+            {
+              Username: req.body.Username,
+              Password: req.body.Password,
+              Email: req.body.Email,
+              Birthday: req.body.Birthday
+            }
+        },
+        { new: true },
+        (err, updatedUser) => {
+          if(err) {
+            console.error(err);
+            res.status(500).send('Error: ' + err);
+          } else {
+            res.json(updatedUser);
+          }
+        });
 });
 
 // add movie to users favorites list

@@ -18,7 +18,7 @@ const jwt = require('jsonwebtoken'),
          passport.authenticate('local', { session: false }, (error, user, info) => {
             if (error || !user) {
                return res.status(400).json({
-                  message: 'Soemthing is not right',
+                  message: 'Something is not right',
                   user: user
                });
             }
