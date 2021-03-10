@@ -114,13 +114,13 @@ app.post('/users',
   (req, res) => {
 
     // check the validation object for errors
-    let errors = validationResult(req);
+    const errors = validationResult(req);
 
     if (!errors.isEmpty()) {
       return res.status(422).json({ error: errors.array() });
     }
 
-    let hashedPassword = Users.hashPassword(req.body.Password);
+    const hashedPassword = Users.hashPassword(req.body.Password);
     Users.findOne({ Username: req.body.Username})
       .then((user) => {
         if (user) {
@@ -160,13 +160,13 @@ app.put('/users/:Username',
   passport.authenticate('jwt', { session: false}), (req, res) => {
 
     // check the validation object for errors
-    let errors = validationResult(req);
+    const errors = validationResult(req);
 
     if (!errors.isEmpty()) {
       return res.status(422).json({ error: errors.array() });
     }
     
-    let hashedPassword = Users.hashPassword(req.body.Password);
+    const hashedPassword = Users.hashPassword(req.body.Password);
     Users.findOneAndUpdate({ Username: req.params.Username },
       {
         $set:
