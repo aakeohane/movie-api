@@ -6,7 +6,8 @@ const Models = require('./models.js');
 const Movies = Models.Movie;
 const Users = Models.User;
 
-mongoose.connect('mongodb://localhost:27017/myFlixDB', { useNewUrlParser: true, useUnifiedToplogy: true });
+// mongoose.connect('mongodb://localhost:27017/myFlixDB', { useNewUrlParser: true, useUnifiedToplogy: true });
+mongoose.connect( process.env.CONNECTION_URI , { useNewUrlParser: true, useUnifiedToplogy: true });
 
 const bodyParser = require('body-parser');
 
