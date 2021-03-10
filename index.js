@@ -156,26 +156,36 @@ app.put('/users/:Username',
     check('Password', 'Password is required').not().isEmpty(),
     check('Email', 'Email does not appear to be valid').isEmail()
   ],
-    passport.authenticate('jwt', { session: false}), (req, res) => {
-      Users.findOneAndUpdate({ Username: req.params.Username },
-        {
-          $set:
-            {
-              Username: req.body.Username,
-              Password: req.body.Password,
-              Email: req.body.Email,
-              Birthday: req.body.Birthday
-            }
-        },
-        { new: true },
-        (err, updatedUser) => {
-          if(err) {
-            console.error(err);
-            res.status(500).send('Error: ' + err);
-          } else {
-            res.json(updatedUser);
+
+  passport.authenticate('jwt', { session: false}), (req, res) => {
+
+    // check the validation object for errors
+    let errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+      return res.status(422).json({ error: errors.array() });
+    }
+    
+    let hashedPassword = Users.hashPassword(req.body.Password);
+    Users.findOneAndUpdate({ Username: req.params.Username },
+      {
+        $set:
+          {
+            Username: req.body.Username,
+            Password: hashedPassword,
+            Email: req.body.Email,
+            Birthday: req.body.Birthday
           }
-        });
+      },
+      { new: true },
+      (err, updatedUser) => {
+        if(err) {
+          console.error(err);
+          res.status(500).send('Error: ' + err);
+        } else {
+          res.json(updatedUser);
+        }
+      });
 });
 
 // add movie to users favorites list
