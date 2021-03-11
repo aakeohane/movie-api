@@ -177,20 +177,19 @@ app.put('/users/:Username',
             Birthday: req.body.Birthday
           }
       },
-      { new: true },
-      (err, updatedUser) => {
-        if(err) {
-          console.error(err);
-          res.status(500).send('Error: ' + err);
-        } else {
-          res.json(updatedUser);
-        }
+      { new: true })
+      .then( (updatedUser) => {
+        res.json(updatedUser);
+      }) 
+      .catch( (err) => {
+        console.error(err);
+        res.status(500).send('Error: ' + err);
       });
 });
 
 // add movie to users favorites list
 app.post('/users/:Username/movies/:MovieID', passport.authenticate('jwt', { session: false}), (req, res) => {
-  Users.findOneAndUpdate({ Username: req.params.Username},
+  Users.findOneAndUpdate({ Username: req.params.Username },
     {
       // changed from $push so that it wont add duplicates to array (wont throw error if it already exists)
       $addToSet:
@@ -198,14 +197,13 @@ app.post('/users/:Username/movies/:MovieID', passport.authenticate('jwt', { sess
          FavoriteMovies: req.params.MovieID
        }
     },
-    { new: true },
-    (err, updatedUser) => {
-      if(err) {
-        console.error(err);
-        res.status(500).send('Error: ' + err);
-      } else {
-        res.json(updatedUser);
-      }
+    { new: true })
+    .then( (updatedUser) => {
+      res.json(updatedUser);
+    }) 
+    .catch( (err) => {
+      console.error(err);
+      res.status(500).send('Error: ' + err);
     });
 });
 
@@ -213,14 +211,13 @@ app.post('/users/:Username/movies/:MovieID', passport.authenticate('jwt', { sess
 app.delete('/users/:Username/movies/:MovieID', passport.authenticate('jwt', { session: false}), (req, res) => {
   Users.findOneAndUpdate({ Username: req.params.Username }, 
     { $pull: { FavoriteMovies: req.params.MovieID }},
-    { new: true },
-    (err, updatedUser) => {
-      if (err) {
-        console.error(err);
-        res.status(500).send('Error: ' + err);
-      } else {
-        res.json(updatedUser);
-      }
+    { new: true })
+    .then( (updatedUser) => {
+      res.json(updatedUser);
+    }) 
+    .catch( (err) => {
+      console.error(err);
+      res.status(500).send('Error: ' + err);
     });
 });
 
