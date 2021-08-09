@@ -5,6 +5,11 @@ const jwt = require('jsonwebtoken'),
 
    require('./passport');
 
+  /**
+   * generates an encoded JWT token which expires in 7 days
+   * @param {string} user - username you’re encoding in the JWT
+   * @returns JWT Token
+   */
    let generateJWTToken = (user) => {
       return jwt.sign(user, jwtSecret, {
          expiresIn: '7d',
@@ -12,7 +17,7 @@ const jwt = require('jsonwebtoken'),
       });
    }
 
-   // POST login
+   /** POST login */ 
    module.exports = (router) => {
       router.post('/login', (req, res) => {
          passport.authenticate('local', { session: false }, (error, user, info) => {
