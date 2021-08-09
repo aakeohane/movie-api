@@ -22,6 +22,8 @@ The server-side component for the "myFlix" web application. This REST API intera
 ## Technologies
 
 - Javascript
+- Node.js
+- Express
 - Postman
 - MongoDB
 - Mongoose (business logic)
