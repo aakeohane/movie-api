@@ -1,6 +1,6 @@
 # myFlix API
 
-The server-side component for the "myFlix" web application. This REST API interacts with a database that stores data about different movies built using **MongoDB**.
+The server-side component for the "myFlix" web application. This REST API interacts with a database that stores data about different movies built using **MongoDB**. The official [documentation](https://aakeohane.github.io/Portfolio-Website/documentation.html) can be found on my portfolio.
 
 ## Features ✅
 
